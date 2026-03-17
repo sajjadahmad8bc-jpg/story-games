@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Card } from "react-bootstrap";
 import style from "../../../components/Pages/WriterOnlyComponents/WriterHome.module.css";
-import { CommonModal } from "../../Modal/Common-Modal/Modal";
+import { CommonModal } from "../../Modal/Common-Modal/Modal1";
 import Modalsetup2 from "../../Modal/Common-Modal/Modalsetup2";
 import Modalsetup1 from "../../Modal/Common-Modal/Modalsetup1";
 import Modal3 from "../../Modal/Common-Modal/Modal3";

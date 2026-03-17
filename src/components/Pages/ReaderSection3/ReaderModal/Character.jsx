@@ -2,31 +2,12 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-// React Icons
-import { FaThumbsUp, FaCoins } from "react-icons/fa";
 
-// Mock data for likes and tokens
-const n = {
-  likes: 5,
-  tokens: 5,
-};
-
-// Styles for Likes & Tokens row
-const statsRowStyle = {
-  display: "flex",
-  gap: "20px",
-  fontSize: "0.9rem",
-  marginBottom: "1.5rem",
-};
-
-const Character = () => {
+const Character = ({ story, onClose, openBook }) => {
   return (
     <div
       className="d-flex justify-content-center align-items-center"
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#f8f9fa",
-      }}
+      style={{ backgroundColor: "#f8f9fa" }}
     >
       <div
         className="d-flex flex-column flex-md-row border rounded shadow-sm overflow-hidden"
@@ -37,73 +18,56 @@ const Character = () => {
           backgroundColor: "#fff",
         }}
       >
-        {/* Left Image Section */}
+        
+      
         <div
           className="d-flex align-items-center justify-content-center bg-light"
-          style={{
-            width: "35%",
-            minHeight: "400px",
-          }}
+          style={{ width: "35%", minHeight: "400px" }}
         >
-          {/* Gallery icon */}
-          <i className="bi bi-image fs-1 text-secondary"></i>
+           <img
+            src={story?.image || ""}
+            alt="chapter"
+            style={{ maxWidth: "50%", maxHeight: "50%" }}
+          />
+       
         </div>
 
-        {/* Right Content Section */}
+      
         <div className="p-4" style={{ width: "65%", position: "relative" }}>
-          {/* Close Button */}
+        
           <button
             type="button"
             className="btn-close position-absolute"
             style={{ top: "15px", right: "15px" }}
+            onClick={onClose}
           ></button>
 
-          {/* Genre */}
-          <p className="mb-1 text-muted" style={{ fontSize: "0.9rem", marginBottom: 0 }}>
-            Book Name
-          </p>
+          
+          <p className="mb-1 text-muted">{story?.book || "Book Name"}</p>
 
-          {/* Novel Name */}
-          <h5 className="fw-bold mb-2" style={{ fontSize: "1.25rem" }}>
-            Character 1 Name
-          </h5>
+         
+          <h5 className="fw-bold mb-2">{story?.character || "Character Name"}</h5>
 
-          {/* Author + Writer */}
+       
           <div className="mb-3">
-            <span className="text-primary me-3" style={{ fontSize: "0.95rem", cursor: "pointer" }}>
-              Played & Written by Jon Doe
+            <span className="text-primary me-3" style={{ cursor: "pointer" }}>
+              Played & Written by {story?.author || "Jon Doe"}
             </span>
           </div>
 
-          {/* Personality Traits */}
+        
           <h6 className="fw-bold mb-2">Personality Traits</h6>
-          <p
-            className="text-muted"
-            style={{
-              fontSize: "0.9rem",
-              lineHeight: "1.5",
-              marginBottom: "1rem",
-            }}
-          >
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euis mod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci.
+          <p className="text-muted">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
           </p>
 
-          {/* About Character */}
+       
           <h6 className="fw-bold mb-2">About Character</h6>
-          <p
-            className="text-muted"
-            style={{
-              fontSize: "0.9rem",
-              lineHeight: "1.5",
-              marginBottom: "1.5rem",
-            }}
-          >
-           Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euis mod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci.
+          <p className="text-muted">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
           </p>
 
-          
-
-          {/* Read Button */}
+      
           <div className="d-flex">
             <button
               className="btn text-white px-4"
@@ -114,6 +78,7 @@ const Character = () => {
                 width: "100%",
                 height: "50px",
               }}
+              onClick={openBook} 
             >
               Read from Character Perspective
               <i className="bi bi-chevron-right fs-6 ms-2"></i>

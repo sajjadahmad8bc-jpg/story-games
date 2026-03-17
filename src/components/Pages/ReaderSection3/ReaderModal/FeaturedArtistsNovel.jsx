@@ -2,16 +2,16 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-// React Icons
+
 import { FaThumbsUp, FaCoins } from "react-icons/fa";
 
-// Mock data for likes and tokens
+
 const n = {
   likes: 5,
   tokens: 5,
 };
 
-// Styles for Likes & Tokens row
+
 const statsRowStyle = {
   display: "flex",
   gap: "20px",
@@ -37,7 +37,7 @@ const FeaturedArtist = () => {
           backgroundColor: "#fff",
         }}
       >
-        {/* Left Image Section */}
+    
         <div
           className="d-flex align-items-center justify-content-center bg-light"
           style={{
@@ -45,30 +45,30 @@ const FeaturedArtist = () => {
             minHeight: "400px",
           }}
         >
-          {/* Gallery icon */}
+        
           <i className="bi bi-image fs-1 text-secondary"></i>
         </div>
 
-        {/* Right Content Section */}
+       
         <div className="p-4" style={{ width: "65%", position: "relative" }}>
-          {/* Close Button */}
+        
           <button
             type="button"
             className="btn-close position-absolute"
             style={{ top: "15px", right: "15px" }}
           ></button>
 
-          {/* Genre */}
+ 
           <p className="mb-1 text-muted" style={{ fontSize: "0.9rem", marginBottom: 0 }}>
             Genre
           </p>
 
-          {/* Novel Name */}
+       
           <h5 className="fw-bold mb-2" style={{ fontSize: "1.25rem" }}>
             Novel Name
           </h5>
 
-          {/* Author + Writer */}
+        
           <div className="mb-3">
             <span className="text-primary me-3" style={{ fontSize: "0.95rem", cursor: "pointer" }}>
               Author Name
@@ -78,7 +78,7 @@ const FeaturedArtist = () => {
             </span>
           </div>
 
-          {/* Description (Full Lorem Ipsum) */}
+       
           <p
             className="text-muted"
             style={{
@@ -99,7 +99,7 @@ const FeaturedArtist = () => {
             sunt in culpa qui officia deserunt mollit anim id est laborum.
           </p>
 
-          {/* Likes and Tokens */}
+        
           <div style={statsRowStyle}>
             <span style={{ color: "gold" }}>
               <FaThumbsUp /> Likes ({n.likes})
@@ -109,7 +109,7 @@ const FeaturedArtist = () => {
             </span>
           </div>
 
-          {/* Read Button */}
+          
           <div className="d-flex">
             <button
               className="btn text-white px-4"

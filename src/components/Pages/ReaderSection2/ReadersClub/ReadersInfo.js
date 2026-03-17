@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import styles from "./ReadersInfo.module.css";
 import illustration from "../../../../assets/Readers-Assets/images/Group.png";
 
-// ✅ React Icons
+
 import { MdEmail } from "react-icons/md";
 import { FaUser, FaLock } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
+
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const ReadersInfo = () => {
@@ -19,7 +19,7 @@ const ReadersInfo = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+ 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,25 +34,16 @@ const ReadersInfo = () => {
     console.log("Form Submitted:", formData);
   };
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
 
-  if (!isOpen) return null;
+
+
 
   return (
     <div className={styles.modalContainer}>
       <div className={styles.formCard}>
-        {/* Close Button */}
-        <button
-          className={styles.closeButton}
-          onClick={handleClose}
-          aria-label="Close"
-        >
-          <IoMdClose size={22} />
-        </button>
+       
 
-        {/* Illustration */}
+       
         <div className={styles.illustrationContainer}>
           <img
             src={illustration}
@@ -61,12 +52,11 @@ const ReadersInfo = () => {
           />
         </div>
 
-        {/* Title */}
+     
         <h2 className={styles.formTitle}>Add Your Information</h2>
 
-        {/* Form */}
         <form className={styles.infoForm} onSubmit={handleSubmit}>
-          {/* Email */}
+       
           <div className={styles.inputGroup}>
             <span className={styles.inputIcon}>
               <MdEmail />
@@ -81,7 +71,7 @@ const ReadersInfo = () => {
             />
           </div>
 
-          {/* Username */}
+        
           <div className={styles.inputGroup}>
             <span className={styles.inputIcon}>
               <FaUser />
@@ -96,7 +86,7 @@ const ReadersInfo = () => {
             />
           </div>
 
-          {/* Referring Member ID */}
+       
           <div className={styles.inputGroup}>
             <span className={styles.inputIcon}>
               <FaUser />
@@ -110,7 +100,7 @@ const ReadersInfo = () => {
             />
           </div>
 
-          {/* Password */}
+     
           <div className={`${styles.inputGroup} ${styles.passwordGroup}`}>
             <span className={styles.inputIcon}>
               <FaLock />
@@ -132,7 +122,7 @@ const ReadersInfo = () => {
             </span>
           </div>
 
-          {/* Confirm Password */}
+       
           <div className={`${styles.inputGroup} ${styles.passwordGroup}`}>
             <span className={styles.inputIcon}>
               <FaLock />

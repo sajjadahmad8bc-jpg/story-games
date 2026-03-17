@@ -1,11 +1,12 @@
 .pageWrap {
-  min-height: 100vh;
+  min-height: 30vh;
+  
   background: #F9FAFB;
-  padding: 20px 60px;
+  padding: 20px 20px;
   font-family: "Inter", sans-serif;
-  overflow-x: hidden;
+   overflow-x: hidden; 
 }
-/* === Header === */
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -58,7 +59,7 @@
   background: #F3F4FF;
   color: #6C7EDB;
 }
-/* === About Section === */
+
 .aboutContainer {
   background: #F3F4F8;
   border-radius: 16px;
@@ -70,7 +71,7 @@
   margin-bottom: 25px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
-/* === Author Circle === */
+
 .outerCircle {
   width: 160px;
   height: 160px;
@@ -92,7 +93,7 @@
   text-align: center;
   color: #2D2D2D;
 }
-/* === About Text === */
+
 .aboutText h4 {
   font-weight: 700;
   margin-bottom: 8px;
@@ -105,13 +106,13 @@
   color: #555770;
   margin-bottom: 0;
 }
-/* === Right Image === */
+
 .rightImage {
   width: 230px;
   height: auto;
   object-fit: contain;
 }
-/* === Featured Section === */
+
 .featuredSection {
   margin-top: 30px;
 }
@@ -126,7 +127,8 @@
   display: flex;
   align-items: stretch;
   gap: 10px;
-  height: 240px; /* Increased for better content fit */
+  height: 300px;
+ 
   transition: transform 0.3s ease;
 }
 .featureCard:hover {
@@ -139,7 +141,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 240px; /* Matches the card height */
+  min-height: 240px; 
+  
 }
 .imageBlock svg {
   font-size: 45px;
@@ -154,10 +157,10 @@
   position: relative;
   left: -20px;
   z-index: 2;
-  padding: 20px 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Keeps button visible */
+  /* padding: 20px 22px; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: space-between;  */
   
 }
 .cardHeader {

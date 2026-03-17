@@ -63,7 +63,8 @@ export default function MemberProfile() {
       </div>
       <div className={styles.featuredSection}>
         <h5 className={styles.featuredTitle}>Featured Novels</h5>
-        <Row className="g-4">
+       <Row className="g-4 row-cols-1 row-cols-md-2">
+
           {novels.map((n) => (
             <Col key={n.id} md={4}>
               <div className={styles.featureCard}>
@@ -96,8 +97,7 @@ export default function MemberProfile() {
                       </span>
                     </div>
                     <Button variant="link" className={styles.readBtn}>
-                      Read N
-                      ovel &rsaquo;
+                      Read Novel &rsaquo;
                     </Button>
                   </Card.Body>
                 </Card>

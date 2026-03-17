@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Form, InputGroup, ListGroup } from "react-bootstrap";
+import { Button, Form,  ListGroup } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
 import sampleImage from "../../../assets/newChat.png";
 import styles from "./Chat2.module.css";

@@ -34,25 +34,16 @@ const TokenModal = ({ goToNextStep, onClose }) => {
   };
 
   return (
-    <div className="position-relative" style={{ width: "100%", padding: "0" }}>
-      {/* Close Button */}
-      {onClose && (
-        <button
-          type="button"
-          className="btn btn-light position-absolute top-0 end-0 m-2"
-          style={{ fontSize: "24px", lineHeight: "1" }}
-          onClick={onClose} // ✅ parent function call
-        >
-          &times;
-        </button>
-      )}
+    <div className="position-relative" style={{ width: "100%", padding: "0",height:"0" }}>
+   
+ 
 
-      {/* Header */}
+   
       <div className="d-flex justify-content-center py-3 border-bottom">
         <h4 className="fw-bold mb-0">Join the Readers Club</h4>
       </div>
 
-      {/* Plans */}
+     
       <Container className="mt-5">
         <Row className="g-4 justify-content-center">
           {plans.map((plan) => (

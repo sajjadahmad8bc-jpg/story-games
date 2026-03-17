@@ -20,7 +20,7 @@ const UploadedNovel = () => {
           backgroundColor: "#fff",
         }}
       >
-        {/* Left Image Section */}
+      
         <div
           className="d-flex align-items-center justify-content-center bg-light"
           style={{
@@ -28,19 +28,20 @@ const UploadedNovel = () => {
             minHeight: "400px",
           }}
         >
+          
           <i className="bi bi-image fs-1 text-secondary"></i>
         </div>
 
-        {/* Right Content Section */}
+      
         <div className="p-4" style={{ width: "65%", position: "relative" }}>
-          {/* Close Button */}
+         
           <button
             type="button"
             className="btn-close position-absolute"
             style={{ top: "15px", right: "15px" }}
           ></button>
 
-          {/* Genre */}
+      
           <p
             className="mb-1 text-muted"
             style={{ fontSize: "0.9rem", marginBottom: "0" }}
@@ -48,12 +49,12 @@ const UploadedNovel = () => {
             Genre
           </p>
 
-          {/* Novel Name */}
+         
           <h5 className="fw-bold mb-2" style={{ fontSize: "1.25rem" }}>
             Novel Name
           </h5>
 
-          {/* Author + Writer */}
+        
           <div className="mb-3">
             <span
               className="text-primary me-3"
@@ -69,7 +70,7 @@ const UploadedNovel = () => {
             </span>
           </div>
 
-          {/* Description */}
+      
           <p
             className="text-muted"
             style={{
@@ -89,7 +90,7 @@ const UploadedNovel = () => {
             nulla facilisi.
           </p>
 
-          {/* Rejected Button */}
+       
           <div className="d-flex">
             <button
               className="btn text-white px-4"

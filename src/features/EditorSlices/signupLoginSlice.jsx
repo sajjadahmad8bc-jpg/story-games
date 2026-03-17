@@ -1,112 +1,168 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+// ✅ LOGIN (NEW - Vercel compatible)
+export const loginUser = createAsyncThunk(
+  "loginUser",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `https://68c02ee30b196b9ce1c3870f.mockapi.io/crud`
+      );
 
-export const createUser = createAsyncThunk("createUser", async (data, { rejectWithValue }) => {
-    const response = await fetch("https://68c02ee30b196b9ce1c3870f.mockapi.io/crud", {
+      const data = await response.json();
+
+      // email check
+      const user = data.find((u) => u.email === email);
+
+      if (!user) {
+        return rejectWithValue("User not found");
+      }
+
+      // password check
+      if (user.password !== password) {
+        return rejectWithValue("Invalid password");
+      }
+
+      return user;
+    } catch (error) {
+      return rejectWithValue("Login failed");
+    }
+  }
+);
+
+// ✅ CREATE
+export const createUser = createAsyncThunk(
+  "createUser",
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(
+      "https://68c02ee30b196b9ce1c3870f.mockapi.io/crud",
+      {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
-    });
+        body: JSON.stringify(data),
+      }
+    );
 
     try {
-        const result = await response.json();
-        return result;
+      const result = await response.json();
+      return result;
     } catch (error) {
-        return rejectWithValue(error);
+      return rejectWithValue(error);
     }
+  }
+);
 
-})
-//read action
+// ✅ READ
 export const showUser = createAsyncThunk("showUser", async () => {
-    const response = await fetch("https://68c02ee30b196b9ce1c3870f.mockapi.io/crud");
-    try {
-        const res = await response.json();
-        return res;
-    } catch (error) {
-        return error;
-    }
-})
+  const response = await fetch(
+    "https://68c02ee30b196b9ce1c3870f.mockapi.io/crud"
+  );
+  const res = await response.json();
+  return res;
+});
 
-
-//update action
-export const updateUser = createAsyncThunk("updateUser", async (data, { rejectWithValue }) => { 
-    const response = await fetch(`https://68c02ee30b196b9ce1c3870f.mockapi.io/crud/${data.id}`, {
+// ✅ UPDATE
+export const updateUser = createAsyncThunk(
+  "updateUser",
+  async (data, { rejectWithValue }) => {
+    const response = await fetch(
+      `https://68c02ee30b196b9ce1c3870f.mockapi.io/crud/${data.id}`,
+      {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
-    });
+        body: JSON.stringify(data),
+      }
+    );
 
     try {
-        const result = await response.json();
-        console.log(result);
-        return result;
+      const result = await response.json();
+      return result;
     } catch (error) {
-        return rejectWithValue(error);
+      return rejectWithValue(error);
     }
+  }
+);
 
-})
-
-
+// ✅ SLICE
 export const userDetail = createSlice({
-    name: "userDetail",
-    initialState: {
-        users: [],
-        loading: false,
-        error: null,
-        searchData:[],
+  name: "userDetail",
+  initialState: {
+    users: [],
+    loading: false,
+    error: null,
+    searchData: [],
+    currentUser: null, // 👈 login user
+  },
+  reducers: {
+    searchUsers: (state, action) => {
+      state.searchData = action.payload;
     },
-    reducers:{
-        searchUsers:(state,action)=>{
-            state.searchData=action.payload;
-        }
+    logout: (state) => {
+      state.currentUser = null;
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(createUser.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(createUser.fulfilled, (state, action) => {
-                state.loading = false;
-                 state.users.push(action.payload);
-                //state.users=[...state.users,action.payload]
-            })
-            .addCase(createUser.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.error.message; // better to store error message
-            })
-            
+  },
+  extraReducers: (builder) => {
+    builder
+      // LOGIN
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentUser = action.payload;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
-            .addCase(showUser.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(showUser.fulfilled, (state, action) => {
-                state.loading = false;
-                state.users=action.payload ;
-            })
-            .addCase(showUser.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.error.message; // better to store error message
-            })
+      // CREATE
+      .addCase(createUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users.push(action.payload);
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
 
+      // READ
+      .addCase(showUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(showUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(showUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
 
-            .addCase(updateUser.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(updateUser.fulfilled, (state, action) => {
-                state.loading = false;
-                state.users = state.users.map((ele)=>ele.id === action.payload.id? action.payload : ele)
-            })
-            .addCase(updateUser.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.error.message; // better to store error message
-            })
-    }
-
-
+      // UPDATE
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = state.users.map((ele) =>
+          ele.id === action.payload.id ? action.payload : ele
+        );
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  },
 });
+
 export default userDetail.reducer;
-export const {searchUsers} = userDetail.actions;
+export const { searchUsers, logout } = userDetail.actions;

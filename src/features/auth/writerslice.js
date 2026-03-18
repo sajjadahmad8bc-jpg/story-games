@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "https://68c02ee30b196b9ce1c3870f.mockapi.io/users"; 
+const BASE_URL = "https://69b7c533ffbcd02860961cc8.mockapi.io/crud"; 
 
 export const fetchBooks = createAsyncThunk("writer/fetchBooks", async () => {
   const res = await axios.get(`${BASE_URL}/books`);

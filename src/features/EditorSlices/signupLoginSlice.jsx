@@ -6,7 +6,7 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `https://68c02ee30b196b9ce1c3870f.mockapi.io/crud`
+        `https://68c02ee30b196b9ce1c3870f.mockapi.io/users`
       );
 
       const data = await response.json();
@@ -35,7 +35,7 @@ export const createUser = createAsyncThunk(
   "createUser",
   async (data, { rejectWithValue }) => {
     const response = await fetch(
-      "https://68c02ee30b196b9ce1c3870f.mockapi.io/crud",
+      "https://68c02ee30b196b9ce1c3870f.mockapi.io/users",
       {
         method: "POST",
         headers: {
@@ -57,7 +57,7 @@ export const createUser = createAsyncThunk(
 // ✅ READ
 export const showUser = createAsyncThunk("showUser", async () => {
   const response = await fetch(
-    "https://68c02ee30b196b9ce1c3870f.mockapi.io/crud"
+    "https://68c02ee30b196b9ce1c3870f.mockapi.io/users"
   );
   const res = await response.json();
   return res;
@@ -68,7 +68,7 @@ export const updateUser = createAsyncThunk(
   "updateUser",
   async (data, { rejectWithValue }) => {
     const response = await fetch(
-      `https://68c02ee30b196b9ce1c3870f.mockapi.io/crud/${data.id}`,
+      `https://68c02ee30b196b9ce1c3870f.mockapi.io/users/${data.id}`,
       {
         method: "PUT",
         headers: {

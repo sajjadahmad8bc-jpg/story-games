@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "https://68c02ee30b196b9ce1c3870f.mockapi.io/crud";
+const API_URL = "https://68c02ee30b196b9ce1c3870f.mockapi.io/users";
 const savedUser = localStorage.getItem("user");
 
 const initialState = {

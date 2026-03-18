@@ -2,7 +2,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "https://69b7c533ffbcd02860961cc8.mockapi.io/crud";
+// URL ke aage /1 laga diya hai kyunki humara sara data ID 1 ke andar hai
+const API_URL = "https://69b7c533ffbcd02860961cc8.mockapi.io/crud/1";
 const savedUser = localStorage.getItem("user");
 
 const initialState = {
@@ -18,22 +19,37 @@ export const signupUser = createAsyncThunk(
   "auth/signupUser",
   async ({ email, password, role }, thunkAPI) => {
     try {
-      // existing users filter by email AND role
-      const { data: existing } = await axios.get(API_URL, {
-        params: { email },
-      });
+      // 1. Pehle poora data fetch karein
+      const { data: projectData } = await axios.get(API_URL);
+      const allUsers = projectData.users || [];
 
-      // check if same role already exists
-      const duplicate = existing.find((user) => user.role === role);
+      // 2. Check karein if same role already exists
+      const duplicate = allUsers.find((user) => user.email === email && user.role === role);
+      
       if (duplicate) {
         return thunkAPI.rejectWithValue({
           error: "User with this email and role already exists!",
         });
       }
 
-      // otherwise, create new user
-      const response = await axios.post(API_URL, { email, password, role });
-      return response.data;
+      // 3. Create new user object
+      const newUser = { 
+        id: Date.now().toString(), 
+        email, 
+        password, 
+        role 
+      };
+
+      // 4. Update poora project object (PUT request)
+      const updatedData = { 
+        ...projectData, 
+        users: [...allUsers, newUser] 
+      };
+      
+      const response = await axios.put(API_URL, updatedData);
+      
+      // Return naya user taake state update ho sake
+      return newUser;
     } catch (err) {
       return thunkAPI.rejectWithValue({ error: "Signup failed!" });
     }
@@ -41,21 +57,19 @@ export const signupUser = createAsyncThunk(
 );
 
 // LOGIN
-
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ email, password }, thunkAPI) => {
     try {
-      const response = await axios.get(API_URL, { params: { email } });
-      const users = response.data;
-      const foundUser = users.length ? users[0] : null;
+      // 1. Data fetch karein (ID 1 se)
+      const { data: projectData } = await axios.get(API_URL);
+      const users = projectData.users || [];
+
+      // 2. Manual filter karein kyunki params ab object mein kaam nahi karte
+      const foundUser = users.find((u) => u.email === email && u.password === password);
 
       if (!foundUser) {
-        return thunkAPI.rejectWithValue({ error: "User not found!" });
-      }
-
-      if (foundUser.password !== password) {
-        return thunkAPI.rejectWithValue({ error: "Invalid password!" });
+        return thunkAPI.rejectWithValue({ error: "User not found or invalid password!" });
       }
 
       const userData = {
@@ -72,24 +86,29 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-// RESET PASSWORD
 
+// RESET PASSWORD
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async ({ email, role, newPassword }, thunkAPI) => {
     try {
-      const { data: users } = await axios.get(API_URL, { params: { email } });
+      const { data: projectData } = await axios.get(API_URL);
+      const allUsers = projectData.users || [];
 
-      const user = users.find((u) => u.role === role);
+      const userIndex = allUsers.findIndex((u) => u.email === email && u.role === role);
 
-      if (!user) {
+      if (userIndex === -1) {
         return thunkAPI.rejectWithValue({
           error: "User with this email and role not found!",
         });
       }
 
-      const updatedUser = { ...user, password: newPassword };
-      await axios.put(`${API_URL}/${user.id}`, updatedUser);
+      // 1. Password update karein local array mein
+      const updatedUsersArray = [...allUsers];
+      updatedUsersArray[userIndex] = { ...updatedUsersArray[userIndex], password: newPassword };
+
+      // 2. Wapis MockAPI par poora data object PUT karein
+      await axios.put(API_URL, { ...projectData, users: updatedUsersArray });
 
       return { message: "Password reset successfully!" };
     } catch (error) {
@@ -99,7 +118,6 @@ export const resetPassword = createAsyncThunk(
 );
 
 // SLICE
-
 const authSlice = createSlice({
   name: "auth",
   initialState,

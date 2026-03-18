@@ -1,26 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+// ✅ BASE URL (ID 1 ke saath taake nested data access ho sake)
+const BASE_URL = "https://69b7c533ffbcd02860961cc8.mockapi.io/crud/1";
+
 // ✅ LOGIN (NEW - Vercel compatible)
 export const loginUser = createAsyncThunk(
   "loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await fetch(
-        `https://69b7c533ffbcd02860961cc8.mockapi.io/crud`
-      );
-
+      const response = await fetch(BASE_URL);
       const data = await response.json();
 
-      // email check
-      const user = data.find((u) => u.email === email);
+      // Nested users array mein dhundna hai
+      const users = data.users || [];
+      const user = users.find((u) => u.email === email && u.password === password);
 
       if (!user) {
-        return rejectWithValue("User not found");
-      }
-
-      // password check
-      if (user.password !== password) {
-        return rejectWithValue("Invalid password");
+        return rejectWithValue("Invalid email or password");
       }
 
       return user;
@@ -33,56 +29,67 @@ export const loginUser = createAsyncThunk(
 // ✅ CREATE
 export const createUser = createAsyncThunk(
   "createUser",
-  async (data, { rejectWithValue }) => {
-    const response = await fetch(
-      "https://69b7c533ffbcd02860961cc8.mockapi.io/crud",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
+  async (userData, { rejectWithValue }) => {
     try {
-      const result = await response.json();
-      return result;
+      // 1. Pehle pura object mangwayein
+      const res = await fetch(BASE_URL);
+      const projectData = await res.json();
+      
+      // 2. Naya user array mein add karein
+      const newUser = { ...userData, id: Date.now().toString() };
+      const updatedData = { 
+        ...projectData, 
+        users: [...(projectData.users || []), newUser] 
+      };
+
+      // 3. Poora object wapis PUT karein
+      const response = await fetch(BASE_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) throw new Error("Failed to create");
+      return newUser;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
 
 // ✅ READ
-export const showUser = createAsyncThunk("showUser", async () => {
-  const response = await fetch(
-    "https://69b7c533ffbcd02860961cc8.mockapi.io/crud"
-  );
-  const res = await response.json();
-  return res;
+export const showUser = createAsyncThunk("showUser", async (_, { rejectWithValue }) => {
+  try {
+    const response = await fetch(BASE_URL);
+    const res = await response.json();
+    return res.users || []; // Sirf users ka array return karein
+  } catch (error) {
+    return rejectWithValue("Failed to fetch users");
+  }
 });
 
 // ✅ UPDATE
 export const updateUser = createAsyncThunk(
   "updateUser",
   async (data, { rejectWithValue }) => {
-    const response = await fetch(
-      `https://69b7c533ffbcd02860961cc8.mockapi.io/crud/${data.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
     try {
+      const res = await fetch(BASE_URL);
+      const projectData = await res.json();
+
+      const updatedUsers = projectData.users.map((ele) =>
+        ele.id === data.id ? data : ele
+      );
+
+      const response = await fetch(BASE_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...projectData, users: updatedUsers }),
+      });
+
       const result = await response.json();
-      return result;
+      return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -131,7 +138,7 @@ export const userDetail = createSlice({
       })
       .addCase(createUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       })
 
       // READ
@@ -159,7 +166,7 @@ export const userDetail = createSlice({
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       });
   },
 });

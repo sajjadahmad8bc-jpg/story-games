@@ -70,7 +70,7 @@ export default function ProfilePage() {
     }
 
     try {
-      const res = await fetch("https://68c02ee30b196b9ce1c3870f.mockapi.io/crud");
+      const res = await fetch("https://68c02ee30b196b9ce1c3870f.mockapi.io");
       const users = await res.json();
 
       const currentUser = users.find(
@@ -82,7 +82,7 @@ export default function ProfilePage() {
         return alert("Old password is incorrect!");
 
       const updateRes = await fetch(
-        `https://68c02ee30b196b9ce1c3870f.mockapi.io/crud/${currentUser.id}`,
+        `https://68c02ee30b196b9ce1c3870f.mockapi.io/${currentUser.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

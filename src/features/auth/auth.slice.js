@@ -46,7 +46,7 @@ export const signupUser = createAsyncThunk(
         users: [...allUsers, newUser] 
       };
       
-      const response = await axios.put(API_URL, updatedData);
+   await axios.put(API_URL, updatedData);
       
       // Return naya user taake state update ho sake
       return newUser;

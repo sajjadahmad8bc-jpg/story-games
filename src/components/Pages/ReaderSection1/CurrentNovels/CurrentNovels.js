@@ -13,7 +13,7 @@ const CurrentNovels = () => {
 
   const fetchNovels = async () => {
     try {
-      const response = await fetch("https://68c02ee30b196b9ce1c3870f.mockapi.io"); 
+      const response = await fetch("https://69b7c533ffbcd02860961cc8.mockapi.io/crud/1"); 
       const data = await response.json();
 
       if (Array.isArray(data) && data.length > 0) {

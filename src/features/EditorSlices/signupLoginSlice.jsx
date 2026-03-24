@@ -86,7 +86,7 @@ export const updateUser = createAsyncThunk(
         body: JSON.stringify({ ...projectData, users: updatedUsers }),
       });
 
-      const result = await response.json();
+      await response.json();
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
